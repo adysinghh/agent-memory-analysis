@@ -143,21 +143,21 @@
               and how conflicts should be resolved when different agents update the same memory state.
             </p>
 
-            <p>
+            <p class="structured-heading">
                 Mainly memory suffers from 11 big types of issues which researchers are trying to solve:
               </p>
-              <ol>
-                <li>Disconnected Semantics: Bad structure of storage leads to fragmentation, which leads to bad retrieval or degraded response. [AriadneMem]</li>
-                <li>State Update: Evolving information creates conflict with older info. [AriadneMem]</li>
-                <li>Temporal Inaccuracies: Memories are arranged by the dialogue time rather than their actual occurrence time. [TSM]</li>
-                <li>Temporal Fragmentation: Existing methods focus on point-wise memory, which loses durative information and ignores temporal continuity and semantic relatedness. [TSM]</li>
-                <li>Single Granularity: One level of memory cannot capture deep meaning connections, causing partial retrieval or noise. [MemGAS]</li>
-                <li>Temporally structured information: Limited support across hierarchical levels leads to fragmented memories and unstable long-horizon personalization. [TiMem]</li>
-                <li>Bad clustering of info: Temporal and semantic locality issues hurt retrieval and increase latency.</li>
-                <li>Turn in isolation: Treating each conversation turn independently. [LightMem]</li>
-                <li>Filtering: Naive or overly restrictive filtering.</li>
-                <li>Contradiction between online update and offline updates: Irregularities can cause conflicting information.</li>
-                <li>Full interaction histories: Passive context extension causes redundancy or forces expensive filtering. [SimpleMem]</li>
+              <ol class="issue-inventory">
+                <li><strong>Disconnected Semantics:</strong> Bad structure of storage leads to fragmentation, which leads to bad retrieval or degraded response. [AriadneMem]</li>
+                <li><strong>State Update:</strong> Evolving information creates conflict with older info. [AriadneMem]</li>
+                <li><strong>Temporal Inaccuracies:</strong> Memories are arranged by the dialogue time rather than their actual occurrence time. [TSM]</li>
+                <li><strong>Temporal Fragmentation:</strong> Existing methods focus on point-wise memory, which loses durative information and ignores temporal continuity and semantic relatedness. [TSM]</li>
+                <li><strong>Single Granularity:</strong> One level of memory cannot capture deep meaning connections, causing partial retrieval or noise. [MemGAS]</li>
+                <li><strong>Temporally structured information:</strong> Limited support across hierarchical levels leads to fragmented memories and unstable long-horizon personalization. [TiMem]</li>
+                <li><strong>Bad clustering of info:</strong> Temporal and semantic locality issues hurt retrieval and increase latency.</li>
+                <li><strong>Turn in isolation:</strong> Treating each conversation turn independently. [LightMem]</li>
+                <li><strong>Filtering:</strong> Naive or overly restrictive filtering.</li>
+                <li><strong>Contradiction between online update and offline updates:</strong> Irregularities can cause conflicting information.</li>
+                <li><strong>Full interaction histories:</strong> Passive context extension causes redundancy or forces expensive filtering. [SimpleMem]</li>
               </ol>
               <p>
                 So, these problems suggest that practical agent memory should not only be persistent, but also cost-efficient, temporally accurate, adaptive in granularity, and capable of connecting related evidence across long interactions.
@@ -166,7 +166,7 @@
 
           <section class="memo-section" id="failure-modes">
             <p class="section-number">02.1 / Seven failure modes</p>
-            <p class="lead">These issues can be grouped into seven broader failure modes:.</p>
+            <p>These issues can be grouped into seven broader failure modes:</p>
             <ol class="editorial-list">
               <li><span>01</span><div><h3>Information density</h3><p>Raw history contains filler, repetition, and low-value context. More tokens can create less signal.</p><small>SimpleMem · LightMem</small></div></li>
               <li><span>02</span><div><h3>Retrieval efficiency</h3><p>Broad searches over large memory stores increase latency, cost, and irrelevant recall.</p><small>SwiftMem</small></div></li>
@@ -181,26 +181,26 @@
           <section class="memo-section" id="papers">
             <p class="section-number">03 / What recent papers fix</p>
             <p>Recent memory systems do not solve these problems through one single design. Instead, they attack different stages of the memory pipeline: what should be written into memory, how it should be compressed or consolidated, how it should be indexed for retrieval, how temporal information should be represented, and how related facts should be connected across long interactions, and how memory should be shared across agents, tasks, tools, and devices. This makes the recent literature useful not just as separate methods, but as a design map for building practical agent memory systems.</p>
-            <p>
+            <p class="structured-heading">
               Below is how recent memory papers tackle different parts of this problem.
             </p>
-            <p>LightMem:</p>
-            <ol>
+            <p class="paper-system"><strong>LightMem:</strong></p>
+            <ol class="paper-points">
               <li>pre-compression sensory acting as a filter</li>
               <li>A topic-aware short term memory which leverages semantic and topic similarity to dynamically group related utterance into coherent segments</li>
               <li>A sleep time update for long term memory: initially stand in timely to support soft update, later offline: reorganize, deduplicate, abstract, segments to resolve inconsistency</li>
               <li>online soft update = cheap immediate update; offline sleep-time update = later deduplication, abstraction, consolidation, inconsistency resolution</li>
             </ol>
 
-            <p>SwiftMem</p>
-            <ol>
+            <p class="paper-system"><strong>SwiftMem</strong></p>
+            <ol class="paper-points">
               <li>Temporal Index for Time-aware retrieval: binary searchable temporal index combining user-specific sorted timelines with global episode lookups</li>
               <li>Semantic DAG-Tag index for content-aware retrieval: to maintain semantic relationship between concepts, along with LLM based tag generation and query-tag routing</li>
               <li>Embedding Index with co-consolidation for scalability: Maintains an embedding index for similarity based retrieval, to add memory fragments, periodically reorganize embedding storage based on semantic tag clusters.</li>
             </ol>
 
-            <p>SimpleMem</p>
-            <ol>
+            <p class="paper-system"><strong>SimpleMem</strong></p>
+            <ol class="paper-points">
               <li>Semantic structured compression: apply a semantic density gating mechanism via LLM-based qualitative assessment; uses the foundation model as a semantic judge to estimate information gain relative to history, preserving only content with high downstream utility.</li>
               <li>Online semantic synthesis: inspired by biological consolidation; related units are synthesized into higher-level abstract representation during write phase</li>
               <li>The objective is to improve efficiency under fixed context and token budget.</li>
@@ -208,8 +208,8 @@
               <li>Basically 'structured semantic compression': Improve efficiency through principled memory organisation, online synthesis, and intent aware planning.</li>
             </ol>
 
-            <p>TiMem</p>
-            <ol>
+            <p class="paper-system"><strong>TiMem</strong></p>
+            <ol class="paper-points">
               <li>Organises conversation through a Temporal Memory Tree (TMT).</li>
               <li>Temporal-hierarchical organisation through TMT; organises memory with temporal constraints and order through tree constraints.</li>
               <li>Semantic-guided consolidation that enables memory integration across hierarchical levels without fine tuning.</li>
@@ -217,15 +217,15 @@
               <li>TiMem treats temporal continuity as a first-class organising principle for long-horizon memory in conversational agents.</li>
             </ol>
 
-            <p>MemGAS</p>
-            <ol>
+            <p class="paper-system"><strong>MemGAS</strong></p>
+            <ol class="paper-points">
               <li>A framework that enhances memory consolidation by constructing multi-granular association, adaptive selection and retrieval.</li>
               <li>Memory Association: Leverages LLM to generate memory summary and keyword, constructively multi-granular memory units; when new memory is updated, a Gaussian Mixture model is employed to cluster historical memories into an accept set and reject set.</li>
               <li>Granularity Selection: i. Entropy based router adaptively assigns retrieval weights to different granularity by evaluating the certainty of Query relevance. ii. critical memory is retrieved using personalized pagerank and filtered through LLMs to remove redundancy, ensuring a refined and high-quality memory that enhances the assistant's understanding.</li>
             </ol>
 
-            <p>Temporal Semantic Memory (TSM)</p>
-            <ol>
+            <p class="paper-system"><strong>Temporal Semantic Memory (TSM)</strong></p>
+            <ol class="paper-points">
               <li>Models semantic time for point wise memory and supports the construction and utilization of durative memory</li>
               <li>Takes inspiration from human memory which relies on the time as a scaffold for ordering and linking real-life experiences, supporting coherent recall across long-term memories.</li>
               <li>A memory framework designed to support semantic-time grounded duration aware memory access</li>
@@ -234,8 +234,8 @@
               <li>Lightweight hierarchical mechanism: it incrementally updates temporal facts online and periodically consolidates summaries to improve long-term consistency</li>
             </ol>
 
-            <p>AriadneMem</p>
-            <ol>
+            <p class="paper-system"><strong>AriadneMem</strong></p>
+            <ol class="paper-points">
               <li>Previous methods solve the problem of 'Disconnected Evidence' and 'State updates' through: i. raw long retrieval, which caused lost in the middle problem + lack of connectivity. ii. Iterative reasoning: which works but increases the latency and increases the token usage increasing the cost. </li>
               <li>SimpleMem helps but since it treats the memory as a set of isolated atoms without intrinsic links, SimpleMem is forced to fall back on the expensive planning loop of strategy, it uses multi-hop reasoning, invoking the LLM, which increases latency and token consumption.</li>
               <li>From iterative planning to structural traversal: instead of LLM, a graph utilizing algorithmic bridge discovery and bounded depth path mining to deterministically reconstruct evidence chains.</li>
@@ -253,8 +253,8 @@
             <p class="section-number">04 / Comparative analysis</p>
             <p>Across these systems, a clear pattern emerges: recent memory research is not only about storing more information, but about deciding the right form of memory for the right kind of task. SimpleMem and LightMem focus on reducing noisy memory construction, SwiftMem improves retrieval efficiency, TiMem and TSM make time explicit, MemGAS adapts memory granularity, and AriadneMem adds relational structure for connected evidence. Together, these works suggest that practical agent memory should be understood as a cost-aware pipeline rather than a single storage module.</p>
             <p>These papers can be understood as optimizing different parts of the same memory pipeline: write-time cost, retrieval-time cost, temporal consistency, granularity, and relational reasoning.</p>
-            <p>Tradeoffs, in the current systems are:</p>
-            <ol>
+            <p class="structured-heading">Tradeoffs, in the current systems are:</p>
+            <ol class="tradeoff-list">
               <li>Compression helps cost, but it may lose relational details</li>
               <li>Indexing helps speed, but this mainly depends on Tagging</li>
               <li>Temporal hierarchy helps long-term personalization, but may miss cross-temporal relation; means: if memories are separated too strictly by time buckets, the system may fail to connect related events that happen far apart.</li>
@@ -268,22 +268,22 @@
           <section class="memo-section" id="adaptive">
             <p class="section-number">05 / What Should Come Next: Cost-aware adaptive memory</p>
             <p>Future agent memory should not use one fixed memory design. It should decide dynamically according to the task, query and past context by periodically evaluating what type of memory access the task actually requires.</p>
-            <ol>
+            <ol class="adaptive-questions">
               <li>Whether the query needs compressed facts, temporal history, multi-granular summaries, or graph-connected evidence.</li>
               <li>Whether expensive retrieval is justified.</li>
               <li>Should the memory be updated online immediately or consolidated offline later.</li>
               <li>Temporal semantics should be treated as a core design layer, not just metadata, and build a system which treats this on a more granular level.</li>
             </ol>
-            <p> A good memory system can consist of:</p>
-            <ol>
-              <li>Information-dense: avoid storing raw redundant context directly</li>
-              <li>Temporally grounded: separates dialogue time from event time</li>
-              <li>Granularity-aware:  retrieves facts, summaries, or patterns depending on query</li>
-              <li>Relational when needed: uses graph-like structures only for connected evidence</li>
-              <li>Cost-aware: avoids expensive retrieval/traversal unless necessary</li>
+            <p class="structured-heading"> A good memory system can consist of:</p>
+            <ol class="memory-principles">
+              <li><strong>Information-dense:</strong> avoid storing raw redundant context directly</li>
+              <li><strong>Temporally grounded:</strong> separates dialogue time from event time</li>
+              <li><strong>Granularity-aware:</strong>  retrieves facts, summaries, or patterns depending on query</li>
+              <li><strong>Relational when needed:</strong> uses graph-like structures only for connected evidence</li>
+              <li><strong>Cost-aware:</strong> avoids expensive retrieval/traversal unless necessary</li>
               <li>Temporal semantics should be treated as a foundational layer, not an optional metadata field</li>
-              <li>Update-aware: handles stale facts, contradictions, and evolving user states.</li>
-              <li>Shared and orchestration-aware: supports memory across agents, tools, sessions, tasks, and devices while deciding what should remain local, what should become shared memory, and how conflicting updates should be resolved.</li>
+              <li><strong>Update-aware:</strong> handles stale facts, contradictions, and evolving user states.</li>
+              <li><strong>Shared and orchestration-aware:</strong> supports memory across agents, tools, sessions, tasks, and devices while deciding what should remain local, what should become shared memory, and how conflicting updates should be resolved.</li>
               <li>A possible future direction is to explore meta-learning and neuroscience-inspired mechanisms for more adaptive memory systems.</li>
             </ol>
           </section>
@@ -294,15 +294,15 @@
               <p>One important issue in memory research is that “better memory” is not a single metric. A system can improve final answer accuracy but still be expensive, slow, unstable over time, or weak at handling updated information. Similarly, a system can reduce token usage but lose important relational or temporal details. So agent memory should be evaluated as a full pipeline, not only as a final QA score.</p>
               <p>A useful evaluation should measure both the quality of the answer and cost of producing it. This means looking at whether the system retrieves the right memory, whether it uses the correct event time, whether it handles stale or contradictory facts, whether it connects evidence across distant interactions, and whether it does all of this within realistic latency and token budgets.</p>
               <p>Benchmarks commonly used across these papers are: LoCoMo and LongMemEval-S</p>
-              <p>The metrics used across the papers were:</p>
-              <ol>
-                <li>LightMem: Accuracy, summary tokens, updated tokens, token (total), API calls, Runtime. Also uses ablation metrics like compression ratio, STM threshold, segmentation accuracy, category-wise accuracy. LightMem explicitly evaluates both effectiveness and efficiency.</li>
-                <li>SwiftMem: LLM as judge, F1, BLEU-1, Search latency, total latency. Also uses scalability metrics: LLM score + search latency across dataset scale. In ablations, it uses Evidence Recall, LLM Judge score, and Search Latency.</li>
-                <li>SimpleMem: For LoCoMo, SimpleMem uses F1, BLEU-1, and token cost. For LongMemEval-S, it uses judged correctness or accuracy-style scoring. For efficiency, it reports construction time, retrieval time, total time, and average F1. It also studies ablation drops across Multi-hop, Temporal, Open-Domain, Single-Hop, and Average F1.</li>
-                <li>TiMem: TiMem uses LLM-as-Judge accuracy, F1, ROUGE-L, and task-wise accuracy across Single-Hop, Temporal, Open-Domain, Multi-Hop, and LongMemEval-S task categories. It also reports recalled memory length, recalled tokens, P50 and P95 recall latency, planner and gating ablations, hierarchy versus flat-recall ablations, memory manifold metrics, and segment-granularity sensitivity.</li>
-                <li>MemGAS: MemGAS uses GPT-4o-as-Judge, F1, BLEU-4, ROUGE-1, ROUGE-2, ROUGE-L, BERTScore, Recall at 3, 5, and 10, and NDCG at 3, 5, and 10. For efficiency, it reports average tokens, average latency, retrieval latency, memory-construction input and output tokens, and extra memory or RAM cost. It also includes ablations for GMM, PPR, router, and memory association, along with top-K retrieval sensitivity, query-type performance, hyperparameter sensitivity, and retrieval-generation error analysis.</li>
-                <li>TSM: TSM mainly uses Accuracy (ACC), evaluated with GPT-4.1-mini as an LLM-as-Judge. It reports category-wise accuracy across Temporal, Multi-Session, Knowledge-Update, Single-User, Single-Assistant, and Single-Preference tasks on LongMemEval-S. It also reports category-wise accuracy across Temporal, Multi-Hop, Open-Domain, and Single-Hop tasks on LoCoMo. Additional evaluations include backbone comparison with GPT-4o-mini and Qwen3-30B, ablations for removing temporal retrieval and removing durative summaries, embedding-model comparison, and qualitative case studies for semantic-time retrieval.</li>
-                <li>AriadneMem: AriadneMem uses F1, BLEU, category-wise F1 and BLEU across MultiHop, Temporal, OpenDomain, and SingleHop tasks, along with Average F1 and Average BLEU. For efficiency, it reports token cost, construction time, retrieval time, total time, and runtime reduction. It also includes ablations for entropy-aware gating, conflict-aware coarsening, bridge discovery, and topology-aware reasoning, plus retrieval-depth sensitivity for top-k semantic retrieval depth and top-k lexical retrieval depth.</li>
+              <p class="metrics-heading">The metrics used across the papers were:</p>
+              <ol class="evaluation-metrics">
+                <li><strong>LightMem:</strong> Accuracy, summary tokens, updated tokens, token (total), API calls, Runtime. Also uses ablation metrics like compression ratio, STM threshold, segmentation accuracy, category-wise accuracy. LightMem explicitly evaluates both effectiveness and efficiency.</li>
+                <li><strong>SwiftMem:</strong> LLM as judge, F1, BLEU-1, Search latency, total latency. Also uses scalability metrics: LLM score + search latency across dataset scale. In ablations, it uses Evidence Recall, LLM Judge score, and Search Latency.</li>
+                <li><strong>SimpleMem:</strong> For LoCoMo, SimpleMem uses F1, BLEU-1, and token cost. For LongMemEval-S, it uses judged correctness or accuracy-style scoring. For efficiency, it reports construction time, retrieval time, total time, and average F1. It also studies ablation drops across Multi-hop, Temporal, Open-Domain, Single-Hop, and Average F1.</li>
+                <li><strong>TiMem:</strong> TiMem uses LLM-as-Judge accuracy, F1, ROUGE-L, and task-wise accuracy across Single-Hop, Temporal, Open-Domain, Multi-Hop, and LongMemEval-S task categories. It also reports recalled memory length, recalled tokens, P50 and P95 recall latency, planner and gating ablations, hierarchy versus flat-recall ablations, memory manifold metrics, and segment-granularity sensitivity.</li>
+                <li><strong>MemGAS:</strong> MemGAS uses GPT-4o-as-Judge, F1, BLEU-4, ROUGE-1, ROUGE-2, ROUGE-L, BERTScore, Recall at 3, 5, and 10, and NDCG at 3, 5, and 10. For efficiency, it reports average tokens, average latency, retrieval latency, memory-construction input and output tokens, and extra memory or RAM cost. It also includes ablations for GMM, PPR, router, and memory association, along with top-K retrieval sensitivity, query-type performance, hyperparameter sensitivity, and retrieval-generation error analysis.</li>
+                <li><strong>TSM:</strong> TSM mainly uses Accuracy (ACC), evaluated with GPT-4.1-mini as an LLM-as-Judge. It reports category-wise accuracy across Temporal, Multi-Session, Knowledge-Update, Single-User, Single-Assistant, and Single-Preference tasks on LongMemEval-S. It also reports category-wise accuracy across Temporal, Multi-Hop, Open-Domain, and Single-Hop tasks on LoCoMo. Additional evaluations include backbone comparison with GPT-4o-mini and Qwen3-30B, ablations for removing temporal retrieval and removing durative summaries, embedding-model comparison, and qualitative case studies for semantic-time retrieval.</li>
+                <li><strong>AriadneMem:</strong> AriadneMem uses F1, BLEU, category-wise F1 and BLEU across MultiHop, Temporal, OpenDomain, and SingleHop tasks, along with Average F1 and Average BLEU. For efficiency, it reports token cost, construction time, retrieval time, total time, and runtime reduction. It also includes ablations for entropy-aware gating, conflict-aware coarsening, bridge discovery, and topology-aware reasoning, plus retrieval-depth sensitivity for top-k semantic retrieval depth and top-k lexical retrieval depth.</li>
               </ol>
               <p>Across these papers, the evaluation pattern is clear: memory systems are usually measured along two major axes: answer quality and system efficiency. Answer quality includes metrics like accuracy, F1, BLEU, ROUGE-L, BERTScore, LLM-as-Judge score, temporal reasoning accuracy, multi-hop accuracy, and category-wise QA performance. Efficiency includes token usage, API calls, runtime, search latency, retrieval latency, construction time, update cost, and recalled memory length.</p>
               <p>However, for production agent systems, this is still incomplete. Future evaluations should also measure long-term state consistency, shared-memory correctness, conflict resolution, privacy/access scoping, and whether the system can maintain reliable memory across multiple agents, tools, sessions, and devices.</p>
@@ -311,17 +311,27 @@
 
           <section class="memo-section" id="repos">
             <p class="section-number">07 / Open-source repo signals</p>
-            <p>Research papers show how memory systems are being improved, but open-source repositories show what widely adopted systems are really trying to build, deploy, and integrate into agents. I went through some popular memory-related repos such as Mem0, Graphiti, Letta, Cognee, and one clear pattern appears: memory is becoming an infrastructure layer for persistent, stateful, and personalized agentic systems.</p>
-            <p>These repositories focus on practical problems that appear repeatedly in real agent systems like remembering user preferences across sessions, tracking changing facts, retrieving useful context with low latency, preserving tool-use history, sharing memory across agents, and packaging these capabilities through APIs, SDKs, plugins, and managed services.</p>
-            <p>Mem0 [https://github.com/mem0ai/mem0]</p>
-            <p>Mem0 is one of the most widely used memory layers, which is also a YC-funded startup it frames itself as ‘AI Memory that persists across sessions and agents’, they continuously update their framework, its recent update emphasizes single-pass retrieval, ADD-only memory extraction where memories accumulate instead of being overwritten during extraction, entity linking, multi-signal retrieval (hybrid retrieval), temporal reasoning, and production-scale benchmarks using accuracy, token count, and latency. This shows that practical memory systems are optimizing for personalization, speed, scalable retrieval, and cross-session continuity, which eventually improves the final answer quality.</p>
-            <p>Graphiti [https://github.com/getzep/graphiti]</p>
-            <p>Graphiti positions itself as a dynamic, online, temporal context graph for AI agents, it uses: Prescribed and learned ontology for defining the structure of the graph, along with incremental online graph construction which avoids full graph recomputation, it also uses Hybrid retrieval, which combines: semantic embedding, BM25, and graph traversal which contributes to low latency and high precision retrieval, along with scalable system; but the core to it is temporal validity windows along with provenance (linkage to the raw data; source traceability).</p>
-            <p>Letta (MemGPT) [​​https://github.com/letta-ai/letta]</p>
-            <p>Letta is a framework for stateful agents (maintains memory and context across conversations), it does not only maintain the memory like {prompt + context} but it emphasizes on adding memory blocks, messages, tools, runs and steps too, the core to its systems is: persistent states (stored in database), core memory (important memory blocks stay inside context window), editable memory, and it also maintains shared memory blocks that can be attached to multiple agents. Then it separates memory into three primary types: core memory blocks, archival memory, and recall memory. Core memory blocks are always visible and pinned inside the context window. They are editable, and default core memory often includes blocks such as persona and human information, which supports personalization. Archival memory is long-term searchable memory, where tagging helps organize memory for later retrieval. Recall memory stores past conversation history automatically and makes it searchable later.</p>
-            <p>Cognee [https://github.com/topoteretes/cognee]</p>
-            <p>Cognee shows agent memory as a self-hosted knowledge infrastructure layer: persistent, graph-based, searchable, traceable, and connected across sessions, tools and agents; It combines vector-embeddings, graph reasoning, and cognitive-science-grounded ontology generation to make documents more searchable by meaning and connected by relationships.</p>
-            <p>Overall, these repos confirm that memory is moving from a retrieval feature to an infrastructure layer for persistent agents. This also matches the paper-level trend: memory is no longer only about retrieving past text, but about maintaining reliable state over time.</p>
+            <div class="repo-introduction">
+              <p>Research papers show how memory systems are being improved, but open-source repositories show what widely adopted systems are really trying to build, deploy, and integrate into agents. I went through some popular memory-related repos such as Mem0, Graphiti, Letta, Cognee, and one clear pattern appears: memory is becoming an infrastructure layer for persistent, stateful, and personalized agentic systems.</p>
+              <p>These repositories focus on practical problems that appear repeatedly in real agent systems like remembering user preferences across sessions, tracking changing facts, retrieving useful context with low latency, preserving tool-use history, sharing memory across agents, and packaging these capabilities through APIs, SDKs, plugins, and managed services.</p>
+            </div>
+            <div class="repo-entry">
+              <p class="repo-entry-title"><strong>Mem0</strong> [<a href="https://github.com/mem0ai/mem0">https://github.com/mem0ai/mem0</a>]</p>
+              <p>Mem0 is one of the most widely used memory layers, which is also a YC-funded startup it frames itself as ‘AI Memory that persists across sessions and agents’, they continuously update their framework, its recent update emphasizes single-pass retrieval, ADD-only memory extraction where memories accumulate instead of being overwritten during extraction, entity linking, multi-signal retrieval (hybrid retrieval), temporal reasoning, and production-scale benchmarks using accuracy, token count, and latency. This shows that practical memory systems are optimizing for personalization, speed, scalable retrieval, and cross-session continuity, which eventually improves the final answer quality.</p>
+            </div>
+            <div class="repo-entry">
+              <p class="repo-entry-title"><strong>Graphiti</strong> [<a href="https://github.com/getzep/graphiti">https://github.com/getzep/graphiti</a>]</p>
+              <p>Graphiti positions itself as a dynamic, online, temporal context graph for AI agents, it uses: Prescribed and learned ontology for defining the structure of the graph, along with incremental online graph construction which avoids full graph recomputation, it also uses Hybrid retrieval, which combines: semantic embedding, BM25, and graph traversal which contributes to low latency and high precision retrieval, along with scalable system; but the core to it is temporal validity windows along with provenance (linkage to the raw data; source traceability).</p>
+            </div>
+            <div class="repo-entry">
+              <p class="repo-entry-title"><strong>Letta (MemGPT)</strong> [<a href="https://github.com/letta-ai/letta">​​https://github.com/letta-ai/letta</a>]</p>
+              <p>Letta is a framework for stateful agents (maintains memory and context across conversations), it does not only maintain the memory like {prompt + context} but it emphasizes on adding memory blocks, messages, tools, runs and steps too, the core to its systems is: persistent states (stored in database), core memory (important memory blocks stay inside context window), editable memory, and it also maintains shared memory blocks that can be attached to multiple agents. Then it separates memory into three primary types: core memory blocks, archival memory, and recall memory. Core memory blocks are always visible and pinned inside the context window. They are editable, and default core memory often includes blocks such as persona and human information, which supports personalization. Archival memory is long-term searchable memory, where tagging helps organize memory for later retrieval. Recall memory stores past conversation history automatically and makes it searchable later.</p>
+            </div>
+            <div class="repo-entry">
+              <p class="repo-entry-title"><strong>Cognee</strong> [<a href="https://github.com/topoteretes/cognee">https://github.com/topoteretes/cognee</a>]</p>
+              <p>Cognee shows agent memory as a self-hosted knowledge infrastructure layer: persistent, graph-based, searchable, traceable, and connected across sessions, tools and agents; It combines vector-embeddings, graph reasoning, and cognitive-science-grounded ontology generation to make documents more searchable by meaning and connected by relationships.</p>
+            </div>
+            <p class="repo-conclusion">Overall, these repos confirm that memory is moving from a retrieval feature to an infrastructure layer for persistent agents. This also matches the paper-level trend: memory is no longer only about retrieving past text, but about maintaining reliable state over time.</p>
             <div class="repo-list">
               <a href="https://github.com/mem0ai/mem0"><strong>Mem0</strong><span>Persistent memory across sessions and agents, with multi-signal retrieval.</span><i>↗</i></a>
               <a href="https://github.com/getzep/graphiti"><strong>Graphiti</strong><span>A dynamic temporal context graph with provenance and hybrid retrieval.</span><i>↗</i></a>
