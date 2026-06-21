@@ -166,15 +166,17 @@
 
           <section class="memo-section" id="failure-modes">
             <p class="section-number">02.1 / Seven failure modes</p>
-            <p>These issues can be grouped into seven broader failure modes:</p>
-            <ol class="editorial-list">
-              <li><span>01</span><div><h3>Information density</h3><p>Raw history contains filler, repetition, and low-value context. More tokens can create less signal.</p><small>SimpleMem · LightMem</small></div></li>
-              <li><span>02</span><div><h3>Retrieval efficiency</h3><p>Broad searches over large memory stores increase latency, cost, and irrelevant recall.</p><small>SwiftMem</small></div></li>
-              <li><span>03</span><div><h3>Temporal modeling</h3><p>Dialogue order is mistaken for event time; persistent and evolving states are flattened into points.</p><small>TSM · TiMem</small></div></li>
-              <li><span>04</span><div><h3>Single granularity</h3><p>One memory level cannot serve fact lookup, summaries, patterns, and complex multi-hop questions.</p><small>MemGAS · TiMem</small></div></li>
-              <li><span>05</span><div><h3>Disconnected evidence</h3><p>Facts stored as isolated atoms fail when questions require causal or relational reasoning.</p><small>AriadneMem</small></div></li>
-              <li><span>06</span><div><h3>Update and consolidation</h3><p>User state changes over time; memory must handle stale facts, contradictions, online writes, and offline consolidation.</p><small>LightMem · AriadneMem · TiMem</small></div></li>
-              <li><span>07</span><div><h3>Shared memory and orchestration</h3><p>As agent systems become multi-task, multi-agent, and multi-device, memory cannot remain a private store for one conversation. The system must decide which memories should be shared across agents or tasks, which should remain local, how different agents write to the same memory, and how conflicting updates should be resolved.</p></div></li>
+            <p class="structured-heading">
+              These issues can be grouped into seven broader failure modes:
+            </p>
+            <ol class="issue-inventory">
+              <li><strong>Information density:</strong> Raw history contains filler, repetition, and low-value context. More tokens can create less signal. [SimpleMem · LightMem]</li>
+              <li><strong>Retrieval efficiency:</strong> Broad searches over large memory stores increase latency, cost, and irrelevant recall. [SwiftMem]</li>
+              <li><strong>Temporal modeling:</strong> Dialogue order is mistaken for event time; persistent and evolving states are flattened into points. [TSM · TiMem]</li>
+              <li><strong>Single granularity:</strong> One memory level cannot serve fact lookup, summaries, patterns, and complex multi-hop questions. [MemGAS · TiMem]</li>
+              <li><strong>Disconnected evidence:</strong> Facts stored as isolated atoms fail when questions require causal or relational reasoning. [AriadneMem]</li>
+              <li><strong>Update and consolidation:</strong> User state changes over time; memory must handle stale facts, contradictions, online writes, and offline consolidation. [LightMem · AriadneMem · TiMem]</li>
+              <li><strong>Shared memory and orchestration:</strong> As agent systems become multi-task, multi-agent, and multi-device, memory cannot remain a private store for one conversation. The system must decide which memories should be shared across agents or tasks, which should remain local, how different agents write to the same memory, and how conflicting updates should be resolved.</li>
             </ol>
           </section>
 
