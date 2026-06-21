@@ -126,7 +126,15 @@ h1 em, h2 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400;
 .memo-section { padding: 4.75rem max(0px, calc((100% - 700px) / 2)); border-top: 1px solid var(--line); }
 .memo-section:first-child { border-top: 0; }
 .article-body > .memo-section:first-child { padding-top: 3rem; }
-.section-number { margin: 0 0 1.75rem; color: var(--muted); font: 700 .62rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .1em; text-transform: uppercase; }
+.section-number {
+  margin: 0 0 1.9rem;
+  padding-bottom: .65rem;
+  border-bottom: 1px solid var(--line);
+  color: #343530;
+  font: 750 .72rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
 .memo-section h2 { max-width: 760px; margin-bottom: 2.4rem; font-size: clamp(2.8rem, 5vw, 4.8rem); }
 .memo-section h3 { margin: 3rem 0 1rem; font: 400 1.6rem/1.25 Georgia, serif; }
 .memo-section > p:not(.section-number) { max-width: 680px; margin: 1.1rem 0; color: #3e3f3a; font: 1rem/1.78 Georgia, "Times New Roman", serif; }
