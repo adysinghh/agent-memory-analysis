@@ -54,7 +54,7 @@
             <div class="actions">
               <a class="button button-primary" href="assets/memory-is-not-just-context.pdf">Full memo (PDF) <span>↗</span></a>
               <a class="button" href="https://github.com/adysinghh/agent-memory-analysis">Source repository <span>↗</span></a>
-              <a class="text-link" href="mailto:aditya.singhh011@gmail.com">Correspondence <span>↗</span></a>
+              <a class="text-link" href="mailto:aditya.singhh011@gmail.com">Electronic Email <span>↗</span></a>
             </div>
           </aside>
         </div>
@@ -84,81 +84,169 @@
           <section class="memo-section overview-section" id="overview">
             <p class="section-number">01 / Overview</p>
               <p>
-              As we move towards agents and even after so many updates in Large Language Models it still fails to answer on long interactions,
-              which shows the gap in leveraging large context over time. So rather than feeding LLM full long semi-raw/raw context,
-              we in practice deploy memory frameworks that manage storage of facts and information efficiently so that during the retrieval
-              only relevant information is retrieved with best optimization. This becomes even more important as agent systems move
-              beyond a single-chat setting, where memory may need to persist and be shared across tasks, agents, tools, sessions, and devices.
-              The existing approach suffers from fundamental problems: full-context methods cause high inference cost, relying on the entire context layer for
-              retrieval can also become expensive if they search too broadly or retrieve noisy memories, it also shows 3 major types of problems:
-              computation overhead, introducing substantial time, contradictory and redundant facts over time.
+              While exploring AI agents, and using LLMs for a massive amount of time, 
+              I was always struck by the fact that often it forgets about what it did or what 
+              I mentioned a few turns or days ago. Curious about this, I started exploring ways to fix that.
+              I tried passing more context from different chats, generating context using an LLM, 
+              then I also tried using different RAGs on those context text files, or sometimes entire chat PDFs.
+              But I was surprised that even newer models could miss important information if the chat 
+              becomes too messy, long, contradictory or too broad. 
               </p>
 
               <p>
-              Computation overhead and latency comes from long context, like repeatedly processing long histories,
-              updating memory online, or searching large memory stores. In contrast, the Contradictory and
-              Redundant facts problem arises from trying to fix the long context problem wrongly,
-              mainly due to Disconnected evidence and State updates, which is when memory systems store repeated facts,
-              it fails to consolidate updates, or cannot distinguish outdated information from current user state.
+              This made me realize the gap in leveraging large contexts over time. Larger context helps, 
+              but raw long contexts often contain contradictions, redundancy, and noisy details, 
+              which makes it complex and inefficient to work with. So instead of always feeding 
+              the LLM a full long semi-raw or raw context, we use 'Memory' which is an external
+              layer to the LLM or agentic systems. This memory system decides what to store,
+              how to organize it, when to retrieve it, and how to update stale or conflicting information.
               </p>
 
               <p>
-              Few most common ways the current memory systems were tackled was by utilizing roles,
-              and creating most commonly 2 different types of memory to manage the information,
-              the most common framework is using: <em class="technical-term">Episodic Memory</em> (This stores specific events / experiences / facts from the user's
-              past interactions) and <em class="technical-term">Semantic Memory</em> (This stores generalized knowledge, patterns, preferences, and long-term user
-              traits extracted from many episodic memories).
+              This becomes even more important as agent systems move beyond a single isolated chat. 
+              In a practical agentic system, memory may need to persist across tasks, tools, sessions, 
+              and even multiple devices. This system has to decide what should stay local, what 
+              should become shared memory, and how to handle conflicts across different sessions and agents.
               </p>
 
               <p>
-              But as we scale up models and increase the context size, Larger context helps,
-              but it does not guarantee correct retrieval, low cost, or stable long-term memory,
-              since feeding long context does not guarantee correct retrieval of fact and optimised cost;
-              so keeping this in mind a lot of advancement in Memory construction and framework have happened
-              till now, which mainly focuses on: processing - online and offline, eliminating noise and choosing
-              important info, graph relational memory, and MLP based retrieval; Overall, these works focus on
-              reducing compute and latency, improving the connection between memory chunks, making memory
-              temporally accurate, and improving factual reliability without wasting compute, some
-              papers specifically address temporal inconsistency and event-time reasoning.
+              The main tradeoffs I saw were around three problems: cost, retrieval quality, 
+              and state consistency. Computation overhead and latency comes from long context, 
+              like repeatedly processing long histories, updating memory online, or searching 
+              large memory stores. In contrast, the Contradictory and Redundant facts 
+              problem arises from trying to fix the long context problem wrongly, mainly 
+              due to Disconnected evidence and State updates, which is when memory systems 
+              store repeated facts, it fails to consolidate updates, or cannot 
+              distinguish outdated information from current user state.
+              </p>
+
+              <p>
+              A common way to structure memory systems is to separate memory into different types. 
+              Two common categories are episodic memory and semantic memory: Episodic Memory 
+              (this stores specific events / experiences / facts from the user's past interactions)  
+              and Semantic Memory (this stores generalized knowledge, patterns, preferences,
+              and long-term user traits extracted from many episodic memories).
+              </p>
+
+              <p>
+              A lot of recent work in memory construction and memory frameworks that have happened 
+              till now, mainly focuses on: processing - online and offline, eliminating noise and 
+              choosing important info, graph relational memory, and MLP based retrieval; Overall, 
+              these works focus on reducing compute and latency, improving the connection between 
+              memory chunks, making memory temporally accurate, and improving factual reliability 
+              without wasting compute, some papers specifically address temporal inconsistency and event-time reasoning.
+              </p>
+
+              <p>
+              My goal in this memo is not just to summarize these papers one by one. 
+              I wanted to understand what each method is really optimizing: memory construction, 
+              retrieval speed, temporal correctness, update handling, granularity, or connected reasoning. 
+              This memo is my attempt to map those tradeoffs and understand what a practical 
+              agent memory system should probably look like.
               </p>
           </section>
 
           <section class="memo-section" id="why">
             <p class="section-number">02 / Why memory matters</p>
             <p>
-              Large Language Models and Agents are becoming a big part of the world across every task,
-              from personal assistant to Evals, Compliance, etc. but as the conversation gets long then
-               the performance starts degrading as it have limited context and for the long context
-               conversation retrieving relevant facts becomes compute-heavy, complex and confusing.
-               While large context windows have expanded, they remain insufficient for lifelong interaction
-               and suffer from ”lost-in-the-middle” phenomena.
+              Memory systems are fundamental for agents that need to work across long interactions. 
+              As LLMs and Agents are becoming a big part of the world across tasks ranging from personal 
+              assistant to Evals, Compliance, etc. While large context windows have expanded, 
+              they remain insufficient for lifelong interaction and suffer from 'lost-in-the-middle' phenomena, so we use memory.
             </p>
 
             <p>
-              So we use Memory, Memory is an external non-parametric layer or external layer to the existing
-              Agentic or LLM based System. In future agentic systems, memory will also not remain limited
-              to one isolated conversation. Multiple agents, tools, devices, and workflows may need access
-              to shared user or task memory. This makes memory construction harder because the system must
-              decide what information should remain local to one task, what should become shared/global memory,
-              and how conflicts should be resolved when different agents update the same memory state.
+              Memory is an external layer around the LLM or agentic system. 
+              Existing fixes such as long-context prompting or RAG can still 
+              fail when retrieved context is noisy, temporally inconsistent, or disconnected.
+              In future agentic systems, memory will also not remain limited to one isolated conversation.
+              Multiple agents, tools, devices, and workflows may need access to shared user or task memory. 
+              This makes memory construction harder because the system must decide what information 
+              should remain local to one task, what should become shared and global memory, and how 
+              conflicts should be resolved when different agents update the same memory state.
             </p>
 
             <p class="structured-heading">
-                Mainly memory suffers from 11 big types of issues which researchers are trying to solve:
-              </p>
-              <ol class="issue-inventory">
-                <li><strong>Disconnected Semantics:</strong> Bad structure of storage leads to fragmentation, which leads to bad retrieval or degraded response. [AriadneMem]</li>
-                <li><strong>State Update:</strong> Evolving information creates conflict with older info. [AriadneMem]</li>
-                <li><strong>Temporal Inaccuracies:</strong> Memories are arranged by the dialogue time rather than their actual occurrence time. [TSM]</li>
-                <li><strong>Temporal Fragmentation:</strong> Existing methods focus on point-wise memory, which loses durative information and ignores temporal continuity and semantic relatedness. [TSM]</li>
-                <li><strong>Single Granularity:</strong> One level of memory cannot capture deep meaning connections, causing partial retrieval or noise. [MemGAS]</li>
-                <li><strong>Temporally structured information:</strong> Limited support across hierarchical levels leads to fragmented memories and unstable long-horizon personalization. [TiMem]</li>
-                <li><strong>Bad clustering of info:</strong> Temporal and semantic locality issues hurt retrieval and increase latency.</li>
-                <li><strong>Turn in isolation:</strong> Treating each conversation turn independently. [LightMem]</li>
-                <li><strong>Filtering:</strong> Naive or overly restrictive filtering.</li>
-                <li><strong>Contradiction between online update and offline updates:</strong> Irregularities can cause conflicting information.</li>
-                <li><strong>Full interaction histories:</strong> Passive context extension causes redundancy or forces expensive filtering. [SimpleMem]</li>
-              </ol>
+                Across the papers, I kept seeing the same problems appear under 
+                different names: noisy histories, isolated memory units, weak temporal modeling, 
+                single-granularity retrieval, expensive memory search, stale facts, and disconnected evidence; 
+                below are the papers problems mentioned in these papers:
+            </p>
+              <section class="problem-extraction">                            
+                <table class="problem-table">
+                  <thead>
+                    <tr>
+                      <th>Paper / theme</th>
+                      <th>Problem I noted</th>
+                      <th>How I group it</th>
+                    </tr>
+                  </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="2">AriadneMem</td>
+                  <td>Poor memory structure can fragment related facts, making retrieval weaker.</td>
+                  <td>Relational / disconnected evidence</td>
+                </tr>
+                <tr>
+                  <td>Evolving user information can conflict with older stored facts.</td>
+                  <td>Update and consolidation</td>
+                </tr>
+              
+                <tr>
+                  <td rowspan="2">TSM</td>
+                  <td>Memories are often arranged by dialogue time rather than their actual occurrence time.</td>
+                  <td>Temporal modeling</td>
+                </tr>
+                <tr>
+                  <td>Point-wise memory can miss durative information, persistent states, and evolving patterns.</td>
+                  <td>Temporal modeling</td>
+                </tr>
+              
+                <tr>
+                  <td>MemGAS</td>
+                  <td>A single memory granularity cannot fit all query types.</td>
+                  <td>Granularity</td>
+                </tr>
+              
+                <tr>
+                  <td>TiMem</td>
+                  <td>Limited support for temporally structured information across hierarchy levels can lead to fragmented memory and unstable long-horizon personalization.</td>
+                  <td>Temporal modeling / granularity</td>
+                </tr>
+              
+                <tr>
+                  <td>SwiftMem-style locality issue</td>
+                  <td>Poor temporal or semantic locality can make retrieval slower and less precise.</td>
+                  <td>Retrieval efficiency</td>
+                </tr>
+              
+                <tr>
+                  <td>LightMem</td>
+                  <td>Treating each conversation turn in isolation can produce weaker memory units.</td>
+                  <td>Information density</td>
+                </tr>
+              
+                <tr>
+                  <td>LightMem / SimpleMem</td>
+                  <td>Naive filtering can keep too much noise, while overly strict filtering can remove useful details.</td>
+                  <td>Information density</td>
+                </tr>
+              
+                <tr>
+                  <td>LightMem</td>
+                  <td>A mismatch between online updates and offline consolidation can create conflicting information.</td>
+                  <td>Update and consolidation</td>
+                </tr>
+              
+                <tr>
+                  <td>SimpleMem</td>
+                  <td>Full interaction histories create substantial redundancy, while iterative filtering can increase token cost.</td>
+                  <td>Information density / cost</td>
+                </tr>
+              </tbody>
+                </table>
+              </section>
+
               <p>
                 So, these problems suggest that practical agent memory should not only be persistent, but also cost-efficient, temporally accurate, adaptive in granularity, and capable of connecting related evidence across long interactions.
               </p>
@@ -170,11 +258,11 @@
               These issues can be grouped into seven broader failure modes:
             </p>
             <ol class="issue-inventory">
-              <li><strong>Information density:</strong> Raw history contains filler, repetition, and low-value context. More tokens can create less signal. [SimpleMem · LightMem]</li>
-              <li><strong>Retrieval efficiency:</strong> Broad searches over large memory stores increase latency, cost, and irrelevant recall. [SwiftMem]</li>
-              <li><strong>Temporal modeling:</strong> Dialogue order is mistaken for event time; persistent and evolving states are flattened into points. [TSM · TiMem]</li>
-              <li><strong>Single granularity:</strong> One memory level cannot serve fact lookup, summaries, patterns, and complex multi-hop questions. [MemGAS · TiMem]</li>
-              <li><strong>Disconnected evidence:</strong> Facts stored as isolated atoms fail when questions require causal or relational reasoning. [AriadneMem]</li>
+              <li><strong>Information density:</strong> Raw history contains redundancy, filler, repeated facts, and low-value context. [SimpleMem · LightMem]</li>
+              <li><strong>Retrieval efficiency:</strong> Searching broad memory stores or long contexts increases latency and cost. [SwiftMem]</li>
+              <li><strong>Temporal modeling:</strong> Systems confuse dialogue time with actual event time and fail to model durative/evolving states. [TSM · TiMem]</li>
+              <li><strong>Single granularity:</strong> A single memory level cannot handle all queries; some need facts, some need summaries, some need long-term patterns. [MemGAS · TiMem]</li>
+              <li><strong>Disconnected evidence:</strong> Facts may be individually stored but not connected, making multi-hop or causal reasoning difficult. [AriadneMem]</li>
               <li><strong>Update and consolidation:</strong> User state changes over time; memory must handle stale facts, contradictions, online writes, and offline consolidation. [LightMem · AriadneMem · TiMem]</li>
               <li><strong>Shared memory and orchestration:</strong> As agent systems become multi-task, multi-agent, and multi-device, memory cannot remain a private store for one conversation. The system must decide which memories should be shared across agents or tasks, which should remain local, how different agents write to the same memory, and how conflicting updates should be resolved.</li>
             </ol>
