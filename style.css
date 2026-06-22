@@ -164,6 +164,75 @@ h1 em, h2 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400;
 .figure-block figcaption span { color: var(--ink); font-weight: 700; }
 
 .evaluation-writing-space { min-height: 360px; }
+
+.problem-extraction {
+  margin: 3rem 0;
+}
+
+.problem-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.problem-table thead {
+  background: linear-gradient(135deg, #f0b9ca 0%, #d4c9e8 100%);
+  border: 1px solid var(--line);
+}
+
+.problem-table th {
+  padding: 1.2rem 1.2rem;
+  text-align: left;
+  font-weight: 700;
+  font-family: Inter, ui-sans-serif, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-right: 1px solid rgba(21, 22, 19, 0.1);
+}
+
+.problem-table th:last-child {
+  border-right: none;
+}
+
+.problem-table tbody tr {
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.2s ease;
+}
+
+.problem-table tbody tr:nth-child(odd) {
+  background-color: rgba(217, 255, 85, 0.04);
+}
+
+.problem-table tbody tr:hover {
+  background-color: rgba(217, 255, 85, 0.1);
+}
+
+.problem-table td {
+  padding: 1.1rem 1.2rem;
+  color: #3e3f3a;
+  font-family: Georgia, "Times New Roman", serif;
+  border-right: 1px solid rgba(21, 22, 19, 0.08);
+}
+
+.problem-table td:last-child {
+  border-right: none;
+}
+
+.problem-table td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.88rem;
+  background-color: rgba(212, 201, 232, 0.08);
+}
+
+.problem-table tbody tr:hover td:first-child {
+  background-color: rgba(212, 201, 232, 0.15);
+}
+
 .metrics-heading { margin: 2.5rem 0 0 !important; padding-bottom: .75rem; border-bottom: 1px solid var(--ink); font-family: Inter, ui-sans-serif, sans-serif !important; font-size: .78rem !important; font-weight: 700 !important; letter-spacing: .02em; }
 .evaluation-metrics { margin: 0; padding: 0; list-style: none; counter-reset: evaluation-item; }
 .evaluation-metrics li { position: relative; padding: 1.5rem 0 1.6rem 2.5rem; border-bottom: 1px solid var(--line); color: #3e3f3a; font: 1rem/1.72 Georgia, "Times New Roman", serif; counter-increment: evaluation-item; }
