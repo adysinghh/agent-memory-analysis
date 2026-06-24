@@ -48,7 +48,6 @@
               </div>
               <div class="issue">
                 <div><span class="meta-label">Published</span><strong>June 2026</strong></div>
-                <div><span class="meta-label">Revision</span><strong>Version 1.0</strong></div>
               </div>
             </div>
             <div class="actions">
@@ -184,12 +183,12 @@
               <tbody>
                 <tr>
                   <td rowspan="2">AriadneMem</td>
-                  <td>Poor memory structure can fragment related facts, making retrieval weaker.</td>
-                  <td>Relational / disconnected evidence</td>
+                  <td>Poor memory structure of storage leads to fragmentation, which makes retrieval weaker, and poor result.</td>
+                  <td>Disconnected Semantics</td>
                 </tr>
                 <tr>
-                  <td>Evolving user information can conflict with older stored facts.</td>
-                  <td>Update and consolidation</td>
+                  <td>Evolving user information can conflict with older stored information.</td>
+                  <td>State update and consolidation</td>
                 </tr>
               
                 <tr>
@@ -198,25 +197,25 @@
                   <td>Temporal modeling</td>
                 </tr>
                 <tr>
-                  <td>Point-wise memory can miss durative information, persistent states, and evolving patterns.</td>
+                  <td>existing methods focus on point-wise memory, which loses durative information that captures persistent states and evolving patterns;  Many methods store memories of isolated, point-wise entries, which mean  treating them independently which ignores their temporal continuity and semantic relatedness.</td>
                   <td>Temporal modeling</td>
                 </tr>
               
                 <tr>
                   <td>MemGAS</td>
-                  <td>A single memory granularity cannot fit all query types.</td>
+                  <td>A single memory granularity cannot fit all query types, that is we need granularity level according to the complexity of task, and query.</td>
                   <td>Granularity</td>
                 </tr>
               
                 <tr>
                   <td>TiMem</td>
                   <td>Limited support for temporally structured information across hierarchy levels can lead to fragmented memory and unstable long-horizon personalization.</td>
-                  <td>Temporal modeling / granularity</td>
+                  <td>Temporal modeling, granularity</td>
                 </tr>
               
                 <tr>
                   <td>SwiftMem-style locality issue</td>
-                  <td>Poor temporal or semantic locality can make retrieval slower and less precise.</td>
+                  <td>Poor temporal or semantic locality can make retrieval slower and make it less precise.</td>
                   <td>Retrieval efficiency</td>
                 </tr>
               
@@ -228,7 +227,7 @@
               
                 <tr>
                   <td>LightMem / SimpleMem</td>
-                  <td>Naive filtering can keep too much noise, while overly strict filtering can remove useful details.</td>
+                  <td>Too restrictive filtering can remove useful details, while weak filtering keeps too much noise.</td>
                   <td>Information density</td>
                 </tr>
               
@@ -240,7 +239,7 @@
               
                 <tr>
                   <td>SimpleMem</td>
-                  <td>Full interaction histories create substantial redundancy, while iterative filtering can increase token cost.</td>
+                  <td>full interaction histories via passive context extension, leading to substantial redundancy, or rely on iterative reasoning to filter noise, can cause high token costs.</td>
                   <td>Information density / cost</td>
                 </tr>
               </tbody>
@@ -270,9 +269,8 @@
 
           <section class="memo-section" id="papers">
             <p class="section-number">03 / What recent papers fix</p>
-            <p>Recent memory systems do not solve these problems through one single design. Instead, they attack different stages of the memory pipeline: what should be written into memory, how it should be compressed or consolidated, how it should be indexed for retrieval, how temporal information should be represented, and how related facts should be connected across long interactions, and how memory should be shared across agents, tasks, tools, and devices. This makes the recent literature useful not just as separate methods, but as a design map for building practical agent memory systems.</p>
             <p class="structured-heading">
-              Below is how recent memory papers tackle different parts of this problem.
+              From the papers I read these are how they tackle different parts of the above discussed problems.
             </p>
             <p class="paper-system"><strong>LightMem:</strong></p>
             <ol class="paper-points">
